@@ -1,16 +1,17 @@
 import gallery from './../assets/product-gallery.png'
+
 export default function Home() {
   return (
-    <div className="bg-gray-100 h-screen">
+    <div className="bg-gray-100 h-screen flex flex-col gap-y-16 items-center justify-center">
     <div className="max-w-[1320px] max-h-[720px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center h-screen">
-        <div className="flex flex-col md:flex-row -mx-4 border border-gray-700">
+        <div className="flex flex-col md:flex-row -mx-4 border border-gray-700 items-center">
             <div className="md:flex-1">
-                <div className="h-[460px] rounded-lg bg-gray-300">
-                    <img className="w-full h-full object-fit" src={gallery} alt="Product Image"/>
+                <div className="max-h-[720px] rounded-lg bg-gray-300">
+                    <img className="w-full h-full" src={gallery} alt="Product Image"/>
                 </div>
             </div>
             <div className="md:flex-1 px-10 py-6 max-w-[630px] max-h-[540px]">
-                <h2 className="text-2xl font-bold text-gray-800 mb-2">Classy Modern Smart Watch</h2>
+                <h2 className="text-[40px] font-bold text-[#364A63] mb-2">Classy Modern Smart Watch</h2>
                 <div className="flex justify-start items-center space-x-1 lg:space-x-2 mb-4">
   <button>        
 	<svg className="text-yellow-500 w-4 h-auto fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
@@ -38,31 +39,41 @@ export default function Home() {
 	</svg>
   </button>
 
-  <span className="text-slate-400 text-sm">
+  <span className="text-[#8091A7] text-sm">
 	(2 reviews)
   </span>
 </div>
                 
                 <div className="flex mb-4">
                     <div className="mr-4">
-                        <delete className="text-[#8091A7] text-xl font-normal mr-2">$99.00</delete>
-                        <delete className="text-[#6576FF] text-xl font-bold">$79.00</delete>
+                        <del className="text-[#8091A7] text-xl font-normal mr-2">$99.00</del>
+                        <span className="text-[#6576FF] text-2xl font-bold">$79.00</span>
                     </div>
                 </div>
-                    <p className="text-gray-600 text-base font-normal mb-4">
+                    <p className="text-[#8091A7] text-base font-normal mb-4">
                     I must explain to you how all this mistaken idea of denoun cing ple praising pain was born and I will give you a complete account of the system, and expound the actual teaching.
                     </p>
+                    <div className='flex gap-5 mb-4'>
+                 <div>
+                 <p className='text-sm font-normal text-[#8091A7]'>Type</p>
+                 <p className='text-[16px] font-bold text-[#364A63]'>Watch</p>
+                 </div>
+                 <div>
+                 <p className='text-sm font-normal text-[#8091A7]'>Model Number</p>
+                 <p  className='text-[16px] font-bold text-[#364A63]'>Forerunner 290XT</p>
+                 </div>
+                </div>
                 <div className="mb-4">
-                    <span className="font-bold text-gray-700 text-base">Brand Color</span>
-                    <div className="flex items-center mt-2">
-                        <button className="w-6 h-6 rounded-full bg-[#816BFF] mr-2"></button>
-                        <button className="w-6 h-6 rounded-full bg-[#1FCEC9] mr-2"></button>
-                        <button className="w-6 h-6 rounded-full bg-[#4B97D3] mr-2"></button>
-                        <button className="w-6 h-6 rounded-full bg-[#3B4747] mr-2"></button>
+                    <span className="font-bold text-[#364A63] text-base">Brand Color</span>
+                    <div className="flex items-center mt-2 gap-5">
+                        <button className="w-4 h-4 outline outline-2 outline-offset-2 outline-[#816BFF] rounded-full bg-[#816BFF]"></button>
+                        <button className="w-4 h-4 rounded-full bg-[#1FCEC9]"></button>
+                        <button className="w-4 h-4 rounded-full bg-[#4B97D3]"></button>
+                        <button className="w-4 h-4 rounded-full bg-[#3B4747]"></button>
                     </div>
                 </div>
                 <div className="mb-4">
-                    <span className="font-bold text-gray-700">Wrist Size</span>
+                    <span className="font-bold text-[#364A63] text-base">Wrist Size</span>
                     <div className="flex items-center mt-2">
                         <button className="text-[#8091A7] py-2 px-4 rounded-[3px] text-sm mr-2 border border-[#6576FF]"><span className="font-bold text-[#6576FF]">S</span> $69</button>
                         <button className="text-[#8091A7] py-2 px-4 rounded-[3px] text-sm mr-2 border border-[#DBDFEA]"><span className="font-bold text-[#364A63]">M</span> $79</button>
@@ -70,10 +81,20 @@ export default function Home() {
                         <button className="text-[#8091A7] py-2 px-4 rounded-[3px] text-sm mr-2 border border-[#DBDFEA]"><span className="font-bold text-[#364A63]">XL</span> $99</button>
                     </div>
                 </div>
-                
+                <div className='flex gap-3'>
+                  <div className='flex rounded-sm'>
+                    <div className='py-1 px-4 text-[#8091A7] border border-[#DBDFEA] text-lg'>-</div>
+                    <div className='py-1 px-6 text-[#8091A7] border-t border-b border-[#DBDFEA] text-lg'>0</div>
+                    <div className='py-1 px-4 text-[#8091A7] border border-[#DBDFEA] text-lg' >+</div>
+                  </div>
+                  <div className='text-white bg-[#6576FF] font-bold px-[18px] py-2 rounded-[3px]'>Add to cart</div>
+                  <div></div>
+                </div>
+
             </div>
         </div>
     </div>
+    <div className='text-[#364A63] bg-[#FFBB5A] font-bold px-[18px] py-2 rounded-[20px] flex items-center gap-2 shadow-lg'>Checkout <span className='text-xs px-1 bg-white'>2</span> </div>
 </div>
 
   )
