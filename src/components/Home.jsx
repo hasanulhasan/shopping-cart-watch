@@ -1,6 +1,13 @@
+import { useState } from 'react';
 import gallery from './../assets/product-gallery.png'
+import Modal from './Modal';
 
 export default function Home() {
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+
   return (
     <div className="bg-gray-100 h-screen flex flex-col gap-y-16 items-center justify-center">
     <div className="max-w-[1320px] max-h-[720px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center h-screen">
@@ -94,7 +101,64 @@ export default function Home() {
             </div>
         </div>
     </div>
-    <div className='text-[#364A63] bg-[#FFBB5A] font-bold px-[18px] py-2 rounded-[20px] flex items-center gap-2 shadow-lg'>Checkout <span className='text-xs px-1 bg-white'>2</span> </div>
+    <div onClick={openModal} className='text-[#364A63] bg-[#FFBB5A] font-bold px-[18px] py-2 rounded-[20px] flex items-center gap-2 shadow-lg cursor-pointer'>Checkout <span className='text-xs px-1 bg-white'>2</span> </div>
+
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <h2 className="text-[22px] font-bold text-[#364A63] mb-2">Your Cart</h2>
+        <div className="flex flex-col">
+    <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+            <div className="overflow-hidden">
+                <table className="min-w-full">
+                    <tbody>
+                        <tr className="border-b">
+                            <th className="text-sm text-[#8091A7] pr-3 py-2 text-left">Item</th>
+                            <th className="text-sm text-[#8091A7] px-3 py-2 text-center">Color</th>
+                            <th className="text-sm text-[#8091A7] px-3 py-2 text-center">Size</th>
+                            <th className="text-sm text-[#8091A7] px-3 py-2 text-center">Qnt</th>
+                            <th className="text-sm text-[#8091A7] ps-3 py-2 text-right">Price</th>
+                        </tr>
+                        <tr className="border-b">
+                            <td className="text-sm text-[#364A63] pr-3 py-2 flex gap-2 items-center"><img className="w-[36px] h-[36px] rounded-[3px]" src={gallery} alt="Product Image"/>  Classy Modern Smart watch</td>
+                            <td className="text-sm text-[#364A63] px-3 py-2 text-center">Black</td>
+                            <td className="text-sm text-[#364A63] px-3 py-2 font-bold text-center">XL</td>
+                            <td className="text-sm text-[#364A63] px-3 py-2 font-bold text-center">1</td>
+                            <td className="text-sm text-[#364A63] ps-3 py-2 font-bold text-right">$99.00</td>
+                        </tr>
+                        <tr className="border-b">
+                            <td className="text-sm text-[#364A63] pr-3 py-2 flex gap-2 items-center"><img className="w-[36px] h-[36px] rounded-[3px]" src={gallery} alt="Product Image"/>  Classy Modern Smart watch</td>
+                            <td className="text-sm text-[#364A63] px-3 py-2 text-center">Black</td>
+                            <td className="text-sm text-[#364A63] px-3 py-2 font-bold text-center">XL</td>
+                            <td className="text-sm text-[#364A63] px-3 py-2 font-bold text-center">1</td>
+                            <td className="text-sm text-[#364A63] ps-3 py-2 font-bold text-right">$99.00</td>
+                        </tr>
+                        <tr className="border-b">
+                            <td className="text-sm text-[#364A63] pr-3 py-2 flex gap-2 items-center"><img className="w-[36px] h-[36px] rounded-[3px]" src={gallery} alt="Product Image"/>  Classy Modern Smart watch</td>
+                            <td className="text-sm text-[#364A63] px-3 py-2 text-center">Black</td>
+                            <td className="text-sm text-[#364A63] px-3 py-2 font-bold text-center">XL</td>
+                            <td className="text-sm text-[#364A63] px-3 py-2 font-bold text-center">1</td>
+                            <td className="text-sm text-[#364A63] ps-3 py-2 font-bold text-right">$99.00</td>
+                        </tr>
+                        <tr className="">
+                            <td className="text-[#364A63] pr-3 py-2 col-span-3 font-bold">  Total</td>
+                            <td className="text-[#364A63] px-3 py-2 text-center"></td>
+                            <td className="text-[#364A63] px-3 py-2 font-bold text-center"></td>
+                            <td className="text-[#364A63] px-3 py-2 font-bold text-center text-sm">4</td>
+                            <td className="text-[#364A63] ps-3 py-2 font-bold text-right text-lg">$356.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div className='flex justify-end'>
+            <div className='flex gap-6 mt-4'>
+            <div className='text-[#364A63] text-[13px] border border-[#DBDFEA] font-bold px-[18px] py-2 rounded-[3px]'>Continue Shopping</div>
+            <div className='text-white text-[13px] bg-[#6576FF] font-bold px-[18px] py-2 rounded-[3px]'>Checkout</div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+      </Modal>
 </div>
 
   )
