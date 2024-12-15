@@ -9,7 +9,7 @@ export default function Modal({ isOpen, onClose, children }){
       onClick={onClose}
     >
       <div
-        className="bg-white p-8 rounded-lg w-[651px] h-[480px] max-w-full shadow-lg relative"
+        className="bg-white p-8 rounded-lg w-[651px] h-full max-h-[480px] overflow-y-auto shadow-lg relative"
         onClick={(e) => e.stopPropagation()}
       >
         {children}

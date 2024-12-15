@@ -1,20 +1,156 @@
-import { useState } from 'react';
-import gallery from './../assets/product-gallery.png'
+import { useEffect, useState } from 'react';
+import violate from './../assets/violate_watch.png'
+import cyan from './../assets/cyan_watch.png'
+import blue from './../assets/blue_watch.png'
+import black from './../assets/black_watch.png'
 import Modal from './Modal';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const products = [ 
+  {
+  img: violate,
+  color: "violate",
+  price: 50,
+  dis_price: 100,
+  sizes_price: [{
+    size: 'S',
+    price: 150,
+    dis_price: 100,
+  }, {
+    size: 'M',
+    price: 170,
+    dis_price: 120,
+  }, {
+    size: 'L',
+    price: 180,
+    dis_price: 150,
+  },{
+    size: 'XL',
+    price: 200,
+    dis_price: 150,
+  }]
+},
+{
+  img: cyan,
+  color: "cyan",
+  price: 50,
+  dis_price: 100,
+  sizes_price: [{
+    size: 'S',
+    price: 1500,
+    dis_price: 1000,
+  }, {
+    size: 'M',
+    price: 1700,
+    dis_price: 1200,
+  }, {
+    size: 'L',
+    price: 1800,
+    dis_price: 1500,
+  },{
+    size: 'XL',
+    price: 2000,
+    dis_price: 1500,
+  }]
+}, 
+{
+  img: blue,
+  color: "blue",
+  price: 50,
+  dis_price: 100,
+  sizes_price: [{
+    size: 'S',
+    price: 800,
+    dis_price: 1000,
+  }, {
+    size: 'M',
+    price: 1100,
+    dis_price: 1300,
+  }, {
+    size: 'L',
+    price: 1450,
+    dis_price: 1220,
+  },{
+    size: 'XL',
+    price: 2050,
+    dis_price: 1450,
+  }]
+},
+{
+  img: black,
+  color: "black",
+  price: 1500,
+  dis_price: 1000,
+  sizes_price: [{
+    size: 'S',
+    price: 1700,
+    dis_price: 1200,
+  }, {
+    size: 'M',
+    price: 1300,
+    dis_price: 1900,
+  }, {
+    size: 'L',
+    price: 2300,
+    dis_price: 2700,
+  },{
+    size: 'XL',
+    price: 2500,
+    dis_price: 3500,
+  }]
+}, ]
+
 export default function Home() {
+  const [showProduct, setShowProduct] = useState(products[0]);
+  const [priceAndSize, setPriceAndSize] = useState(showProduct.sizes_price[0]);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [cartProduct, setCartProduct] = useState([]);
+  const totalPrice = cartProduct.reduce((sum, item) => sum + item.price, 0);
+  const totalQty = cartProduct.reduce((sum, item) => sum + item.quantity, 0);
+  console.log(totalPrice)
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
+  useEffect(()=> {
+    setPriceAndSize(showProduct.sizes_price[0])
+  },[showProduct])
+
+  const handleAddToCart = () => {
+    if(quantity === 0){
+      toast("Product quantity should be at least one!");
+      return
+    }
+    const data = {
+      img: showProduct.img,
+      color: showProduct.color,
+      price: showProduct.price,
+      size: priceAndSize.size,
+      quantity: quantity,
+    }
+    const isAdded = cartProduct.find(product=> product.color === data.color);
+
+    if(!isAdded){
+      if(cartProduct.length === 0){
+        setCartProduct([data])
+      }else{
+        setCartProduct([...cartProduct, data]);
+      }
+    }else{
+      toast("Product already added!");
+    }
+  }
+
   return (
     <div className="bg-gray-100 h-screen flex flex-col gap-y-16 items-center justify-center">
     <div className="max-w-[1320px] max-h-[720px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center h-screen">
-        <div className="flex flex-col md:flex-row -mx-4 border border-gray-700 items-center">
+        <div className="flex flex-col md:flex-row -mx-4 items-center">
             <div className="md:flex-1">
                 <div className="max-h-[720px] rounded-lg bg-gray-300">
-                    <img className="w-full h-full" src={gallery} alt="Product Image"/>
+                    <img className="w-full h-full" src={showProduct?.img} alt="Product Image"/>
                 </div>
             </div>
             <div className="md:flex-1 px-10 py-6 max-w-[630px] max-h-[540px]">
@@ -53,8 +189,8 @@ export default function Home() {
                 
                 <div className="flex mb-4">
                     <div className="mr-4">
-                        <del className="text-[#8091A7] text-xl font-normal mr-2">$99.00</del>
-                        <span className="text-[#6576FF] text-2xl font-bold">$79.00</span>
+                        <del className="text-[#8091A7] text-xl font-normal mr-2">${priceAndSize.price}</del>
+                        <span className="text-[#6576FF] text-2xl font-bold">${priceAndSize.dis_price}</span>
                     </div>
                 </div>
                     <p className="text-[#8091A7] text-base font-normal mb-4">
@@ -73,28 +209,33 @@ export default function Home() {
                 <div className="mb-4">
                     <span className="font-bold text-[#364A63] text-base">Brand Color</span>
                     <div className="flex items-center mt-2 gap-5">
-                        <button className="w-4 h-4 outline outline-2 outline-offset-2 outline-[#816BFF] rounded-full bg-[#816BFF]"></button>
-                        <button className="w-4 h-4 rounded-full bg-[#1FCEC9]"></button>
-                        <button className="w-4 h-4 rounded-full bg-[#4B97D3]"></button>
-                        <button className="w-4 h-4 rounded-full bg-[#3B4747]"></button>
+                        <button onClick={()=> setShowProduct(products[0])} className={`w-4 h-4 rounded-full bg-[#816BFF] ${showProduct.color === 'violate' && "outline outline-2 outline-offset-2 outline-[#816BFF]"}`}></button>
+                        <button onClick={()=> setShowProduct(products[1])} className={`w-4 h-4 rounded-full bg-[#1FCEC9] ${showProduct.color === 'cyan' && "outline outline-2 outline-offset-2 outline-[#1FCEC9]"}`}></button>
+                        <button onClick={()=> setShowProduct(products[2])} className={`w-4 h-4 rounded-full bg-[#4B97D3] ${showProduct.color === 'blue' && "outline outline-2 outline-offset-2 outline-[#4B97D3]"}`}></button>
+                        <button onClick={()=> setShowProduct(products[3])} className={`w-4 h-4 rounded-full bg-[#3B4747] ${showProduct.color === 'black' && "outline outline-2 outline-offset-2 outline-[#3B4747]"}`}></button>
                     </div>
                 </div>
                 <div className="mb-4">
                     <span className="font-bold text-[#364A63] text-base">Wrist Size</span>
                     <div className="flex items-center mt-2">
-                        <button className="text-[#8091A7] py-2 px-4 rounded-[3px] text-sm mr-2 border border-[#6576FF]"><span className="font-bold text-[#6576FF]">S</span> $69</button>
-                        <button className="text-[#8091A7] py-2 px-4 rounded-[3px] text-sm mr-2 border border-[#DBDFEA]"><span className="font-bold text-[#364A63]">M</span> $79</button>
-                        <button className="text-[#8091A7] py-2 px-4 rounded-[3px] text-sm mr-2 border border-[#DBDFEA]"><span className="font-bold text-[#364A63]">L</span> $89</button>
-                        <button className="text-[#8091A7] py-2 px-4 rounded-[3px] text-sm mr-2 border border-[#DBDFEA]"><span className="font-bold text-[#364A63]">XL</span> $99</button>
+                      {
+                        showProduct?.sizes_price?.map((size,i) => <button onClick={()=> setPriceAndSize(size)} key={i} className={`text-[#8091A7] py-2 px-4 rounded-[3px] text-sm mr-2  ${size.price === priceAndSize.price ? "border border-[#6576FF]" : "border border-[#DBDFEA]" }`}><span className="font-bold text-[#364A63]">{size.size}</span> ${size.price}</button>)
+                      }
                     </div>
                 </div>
                 <div className='flex gap-3'>
                   <div className='flex rounded-sm'>
-                    <div className='py-1 px-4 text-[#8091A7] border border-[#DBDFEA] text-lg'>-</div>
-                    <div className='py-1 px-6 text-[#8091A7] border-t border-b border-[#DBDFEA] text-lg'>0</div>
-                    <div className='py-1 px-4 text-[#8091A7] border border-[#DBDFEA] text-lg' >+</div>
+                    <div onClick={()=> setQuantity((prevQty)=> {
+                      if(prevQty > 0){
+                        return prevQty - 1
+                      }else{
+                        return 0
+                      }
+                    })} className='py-1 px-4 text-[#8091A7] border border-[#DBDFEA] text-lg cursor-pointer'>-</div>
+                    <div className='py-1 px-6 text-[#8091A7] border-t border-b border-[#DBDFEA] text-lg'>{quantity}</div>
+                    <div onClick={()=> setQuantity((prevQty)=> prevQty+1)} className='py-1 px-4 text-[#8091A7] border border-[#DBDFEA] text-lg cursor-pointer' >+</div>
                   </div>
-                  <div className='text-white bg-[#6576FF] font-bold px-[18px] py-2 rounded-[3px]'>Add to cart</div>
+                  <div onClick={handleAddToCart} className='text-white bg-[#6576FF] font-bold px-[18px] py-2 rounded-[3px] cursor-pointer'>Add to cart</div>
                   <div></div>
                 </div>
 
@@ -106,45 +247,39 @@ export default function Home() {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <h2 className="text-[22px] font-bold text-[#364A63] mb-2">Your Cart</h2>
         <div className="flex flex-col">
-    <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div className="overflow-y-auto  sm:-mx-6 lg:-mx-8">
         <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
             <div className="overflow-hidden">
                 <table className="min-w-full">
                     <tbody>
-                        <tr className="border-b">
+                    <tr className="border-b">
                             <th className="text-sm text-[#8091A7] pr-3 py-2 text-left">Item</th>
                             <th className="text-sm text-[#8091A7] px-3 py-2 text-center">Color</th>
                             <th className="text-sm text-[#8091A7] px-3 py-2 text-center">Size</th>
                             <th className="text-sm text-[#8091A7] px-3 py-2 text-center">Qnt</th>
                             <th className="text-sm text-[#8091A7] ps-3 py-2 text-right">Price</th>
                         </tr>
-                        <tr className="border-b">
-                            <td className="text-sm text-[#364A63] pr-3 py-2 flex gap-2 items-center"><img className="w-[36px] h-[36px] rounded-[3px]" src={gallery} alt="Product Image"/>  Classy Modern Smart watch</td>
-                            <td className="text-sm text-[#364A63] px-3 py-2 text-center">Black</td>
-                            <td className="text-sm text-[#364A63] px-3 py-2 font-bold text-center">XL</td>
-                            <td className="text-sm text-[#364A63] px-3 py-2 font-bold text-center">1</td>
-                            <td className="text-sm text-[#364A63] ps-3 py-2 font-bold text-right">$99.00</td>
-                        </tr>
-                        <tr className="border-b">
-                            <td className="text-sm text-[#364A63] pr-3 py-2 flex gap-2 items-center"><img className="w-[36px] h-[36px] rounded-[3px]" src={gallery} alt="Product Image"/>  Classy Modern Smart watch</td>
-                            <td className="text-sm text-[#364A63] px-3 py-2 text-center">Black</td>
-                            <td className="text-sm text-[#364A63] px-3 py-2 font-bold text-center">XL</td>
-                            <td className="text-sm text-[#364A63] px-3 py-2 font-bold text-center">1</td>
-                            <td className="text-sm text-[#364A63] ps-3 py-2 font-bold text-right">$99.00</td>
-                        </tr>
-                        <tr className="border-b">
-                            <td className="text-sm text-[#364A63] pr-3 py-2 flex gap-2 items-center"><img className="w-[36px] h-[36px] rounded-[3px]" src={gallery} alt="Product Image"/>  Classy Modern Smart watch</td>
-                            <td className="text-sm text-[#364A63] px-3 py-2 text-center">Black</td>
-                            <td className="text-sm text-[#364A63] px-3 py-2 font-bold text-center">XL</td>
-                            <td className="text-sm text-[#364A63] px-3 py-2 font-bold text-center">1</td>
-                            <td className="text-sm text-[#364A63] ps-3 py-2 font-bold text-right">$99.00</td>
-                        </tr>
+                        {
+                          cartProduct?.length === 0 ? <>
+                          <p className='my-3'>There is not product in cart</p>
+                          </> : <>
+                          {
+                          cartProduct?.map((product,i)=><tr key={i} className="border-b">
+                          <td className="text-sm text-[#364A63] pr-3 py-2 flex gap-2 items-center"><img className="w-[36px] h-[36px] rounded-[3px]" src={product?.img} alt="Product Image"/>  Classy Modern Smart watch</td>
+                          <td className="text-sm text-[#364A63] px-3 py-2 text-center capitalize">{product?.color}</td>
+                          <td className="text-sm text-[#364A63] px-3 py-2 font-bold text-center">{product?.size}</td>
+                          <td className="text-sm text-[#364A63] px-3 py-2 font-bold text-center">{product?.quantity}</td>
+                          <td className="text-sm text-[#364A63] ps-3 py-2 font-bold text-right">${product?.price * Number(product?.quantity)}</td>
+                         </tr>)
+                        }
+                          </>
+                        }
                         <tr className="">
                             <td className="text-[#364A63] pr-3 py-2 col-span-3 font-bold">  Total</td>
                             <td className="text-[#364A63] px-3 py-2 text-center"></td>
                             <td className="text-[#364A63] px-3 py-2 font-bold text-center"></td>
-                            <td className="text-[#364A63] px-3 py-2 font-bold text-center text-sm">4</td>
-                            <td className="text-[#364A63] ps-3 py-2 font-bold text-right text-lg">$356.00</td>
+                            <td className="text-[#364A63] px-3 py-2 font-bold text-center text-sm">{totalQty}</td>
+                            <td className="text-[#364A63] ps-3 py-2 font-bold text-right text-lg">${totalPrice}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -159,6 +294,7 @@ export default function Home() {
     </div>
 </div>
       </Modal>
+      <ToastContainer />
 </div>
 
   )
